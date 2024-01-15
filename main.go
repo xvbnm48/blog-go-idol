@@ -32,6 +32,7 @@ func main() {
 	router := gin.Default()
 	api := router.Group("/api/v1")
 	api.GET("/", postHandler.GetAllPost)
+	api.GET("/post/:id", postHandler.FindPostById)
 	port := ":8081"
 	router.Run(port)
 }
