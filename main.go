@@ -3,12 +3,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"github.com/xvbnm48/blog-go-idol/handler"
 	repo "github.com/xvbnm48/blog-go-idol/repository/blog"
 	service "github.com/xvbnm48/blog-go-idol/service/blog"
-	"log"
 )
 
 func main() {
@@ -33,6 +34,7 @@ func main() {
 	api := router.Group("/api/v1")
 	api.GET("/", postHandler.GetAllPost)
 	api.GET("/post/:id", postHandler.FindPostById)
+	api.POST("/post", postHandler.CreateNewPost)
 	port := ":8081"
 	router.Run(port)
 }

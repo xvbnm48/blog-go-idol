@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/xvbnm48/blog-go-idol/helper"
+	md "github.com/xvbnm48/blog-go-idol/model/blog"
 	"github.com/xvbnm48/blog-go-idol/service/blog"
-	"strconv"
 )
 
 type BlogHandler struct {
@@ -56,5 +59,29 @@ func (h *BlogHandler) GetAllPost(c *gin.Context) {
 		return
 	}
 	response := helper.ApiResponse("success get all post", "success", 200, Posts)
+	c.JSON(200, response)
+}
+
+func (h *BlogHandler) CreateNewPost(c *gin.Context) {
+	var input md.BlogCreate
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		log.Println(err)
+		c.JSON(400, gin.H{
+			"message": "error input, please check again",
+		})
+		return
+	}
+
+	_, err = h.blogervice.CreatePost(input)
+	if err != nil {
+		log.Println(err)
+		c.JSON(400, gin.H{
+			"message": "error create new post",
+		})
+		return
+	}
+
+	response := helper.ApiResponse("success create new post", "success", 200, nil)
 	c.JSON(200, response)
 }

@@ -34,9 +34,19 @@ func (s *Server) FindPostById(id helper.GetById) (md.Blog, error) {
 	return post, nil
 }
 
-func (s *Server) CreatePost(req md.Blog) (md.Blog, error) {
+func (s *Server) CreatePost(req md.BlogCreate) (md.BlogCreate, error) {
 	//TODO implement me
-	panic("implement me")
+	var postData md.BlogCreate
+	postData.Title = req.Title
+	postData.Content = req.Content
+
+	_, err := s.repo.Create(postData)
+	if err != nil {
+		return md.BlogCreate{}, err
+	}
+
+	// panic("implement me")
+	return postData, nil
 }
 
 func (s *Server) UpdatePost(req md.Blog) (md.Blog, error) {

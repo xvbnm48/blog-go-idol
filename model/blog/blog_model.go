@@ -5,3 +5,8 @@ type Blog struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
+
+type BlogCreate struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}

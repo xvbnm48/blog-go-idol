@@ -1,8 +1,9 @@
 package blog
 
 import (
-	"github.com/xvbnm48/blog-go-idol/model/blog"
 	"log"
+
+	"github.com/xvbnm48/blog-go-idol/model/blog"
 )
 
 func (r *repository) FindAll() ([]blog.Blog, error) {
@@ -36,8 +37,21 @@ func (r *repository) FindById(id int) (blog.Blog, error) {
 
 }
 
-func (r *repository) Create(req blog.Blog) (blog.Blog, error) {
-	return blog.Blog{}, nil
+func (r *repository) Create(req blog.BlogCreate) (blog.BlogCreate, error) {
+	var post blog.BlogCreate
+	post.Title = req.Title
+	post.Content = req.Content
+
+	// Perbaikan: Hapus koma ekstra setelah $2
+	_, err := r.db.Exec("INSERT INTO post (title, content) VALUES ($1, $2)", post.Title, post.Content)
+
+	if err != nil {
+		// Perbaikan: Ganti log.Print dengan log.Println untuk mencetak baris baru
+		log.Println(err)
+		return blog.BlogCreate{}, err
+	}
+
+	return post, nil
 }
 
 func (r *repository) Update(req blog.Blog) (blog.Blog, error) {

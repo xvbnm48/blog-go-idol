@@ -8,7 +8,7 @@ import (
 type Service interface {
 	GetAllPost() ([]blog.Blog, error)
 	FindPostById(id helper.GetById) (blog.Blog, error)
-	CreatePost(req blog.Blog) (blog.Blog, error)
+	CreatePost(req blog.BlogCreate) (blog.BlogCreate, error)
 	UpdatePost(req blog.Blog) (blog.Blog, error)
 	DeletePost(id int) (blog.Blog, error)
 }
